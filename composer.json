@@ -1,0 +1,48 @@
+{
+    "name": "dainsys/ring_central",
+    "description": "A full stack package to add ring_central functionality to Laravel applications.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yismen Jorge",
+            "email": "yismen.jorge@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "^8.0|9.0",
+        "maatwebsite/excel": "^3.1|4.0",
+        "dainsys/mailing": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "6.x-dev",
+        "nunomaduro/collision": "v5.x-dev",
+        "phpunit/php-code-coverage": "9.2.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dainsys\\RingCentral\\Database\\Factories\\": "database/factories/",
+            "Dainsys\\RingCentral\\Database\\Seeders\\": "database/seeders/",
+            "Dainsys\\RingCentral\\": "src/"
+        },
+        "files": [
+            "helpers/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dainsys\\RingCentral\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dainsys\\RingCentral\\RingCentralServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
