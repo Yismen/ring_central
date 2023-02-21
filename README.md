@@ -22,9 +22,9 @@
 
 namespace App\Console\Commands;
 
-use Dainsys\RingCentral\Console\Commands\AbstractProductionReportCommand;
+use Dainsys\RingCentral\Console\Commands\ProductionReportCommand;
 
-class PublishingProductionReport extends AbstractProductionReportCommand
+class PublishingProductionReport extends ProductionReportCommand
 {
     /**
      * The name and signature of the console command.
@@ -32,39 +32,42 @@ class PublishingProductionReport extends AbstractProductionReportCommand
      * @var string
      */
     protected $signature = 'publishing:production-report 
-        {--d|dates=} Required. Range of dates between the data will be queried. Example: 2023-01-01 or 2023-01-01,2023-01-02 or 2023-01-01|2023-01-02
+        {dates?} Range of dates between the data will be queried. Exc: 2023-01-01 or 2023-01-01,2023-01-02. Today\'s date will be assumed if not passed! 
         ';
-        
-    protected $description = 'Send a production report for a given period';
-
-    public function handle()
-    {
-       return parent::manage(new \Dainsys\RingCentral\Reports\ProductionReportByDates()); //reports are grouped by date, and add a date field
-       // parent::manage(new \Dainsys\RingCentral\Reports\ProductionReportSummarized()); // will add date_from and date_to fields. Not grouped by date
-    }
-
-    /**
-     * Subject to be used on the email.
-     */
-    public function subject(): string
-    {
-        return 'Publishing Production Report';
-    }
-
-    public function dialGroupPrefixes(): array
-    {
-        return ['PUB%'];
-    }
-
-    public function teams(): array
-    {
-        return ['ECC%'];
-    }
-
-    public function dialGroups(): array
-    {
-        return ['%'];
-    }
+	
+        /**
+         * List of fields to query. Provide all fields, for both calls and hours. 
+         *
+         * @return array
+         */
+        public function fields(): array 
+        {
+            return [
+               'dial_group' => ['PUB%'],
+               'dial_group_prefix' => '%',
+               'agent_name' => '%',
+               'agent_disposition' => '%',
+               'team' => '%',
+            ];
+        }
+	
+        /**
+         * @return array
+         */
+        public function sheets(): array 
+        {
+            return [                    
+                \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class,
+                \Dainsys\RingCentral\Exports\Sheets\CallsSheet::class,
+            ];
+        }
+            
+	/**
+	 * @return string
+	 */
+	public function subject(): string {
+        return str($this->name)->replace(':', ' ')->headline();
+	}
 }
  ```
 

@@ -4,7 +4,7 @@ namespace Dainsys\RingCentral\Exports\Sheets\Handlers;
 
 use Dainsys\RingCentral\Formats\TextFormats;
 
-class HoursSheetHandler extends AbstractSheetHandler
+class ProductionSheetHandler extends AbstractSheetHandler
 {
     /**
      * @return string

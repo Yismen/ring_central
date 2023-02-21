@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
         public function baseQuery(): Builder
         {
             return Call::query()
-                ->addSelect('agent_disposition')
-                ->groupBy('agent_disposition')
                 ->selectRaw('
                     SUM(duration) AS total_duration
                     ,SUM(sec_on_hold) AS total_sec_on_hold

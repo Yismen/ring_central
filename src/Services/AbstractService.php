@@ -48,9 +48,10 @@ abstract class AbstractService
 
     public function build(array $fields): Builder
     {
-        $this->query->whereDate('date', '>=', $this->date_from)
-            ->whereDate('date', '<=', $this->date_to)
-            ;
+        $this->query->where(function ($q) {
+            $q->whereDate('date', '>=', $this->date_from)
+            ->whereDate('date', '<=', $this->date_to);
+        });
 
         if ($this->group_by_date) {
             $this->query
@@ -69,13 +70,15 @@ abstract class AbstractService
                 ->groupBy($field)
                 ->orderBy($field);
 
-            if (is_array($value)) {
-                foreach ($value as $string) {
-                    $this->query->where($field, 'like', $string);
+            $this->query->where(function ($q) use ($field, $value) {
+                if (is_array($value)) {
+                    foreach ($value as $string) {
+                        $q->orWhere($field, 'like', $string);
+                    }
+                } else {
+                    $q->where($field, 'like', $value);
                 }
-            } else {
-                $this->query->where($field, 'like', $value);
-            }
+            });
         }
 
         return $this->query;
