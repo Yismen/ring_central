@@ -6,14 +6,13 @@ use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Illuminate\Database\Eloquent\Collection;
 use Dainsys\RingCentral\Services\CallsService;
 use Dainsys\RingCentral\Exports\Sheets\Traits\HasNewData;
 use Dainsys\RingCentral\Exports\Sheets\Traits\HasCacheKey;
 use Dainsys\RingCentral\Exports\Sheets\Handlers\CallsSheetHandler;
 
-class CallsSheet extends AbstractSheet implements SheetsContract, FromView, WithTitle, WithEvents
+class ContactsSheet extends AbstractSheet implements SheetsContract, FromView, WithTitle
 {
     use HasNewData;
     use HasCacheKey;
@@ -22,18 +21,18 @@ class CallsSheet extends AbstractSheet implements SheetsContract, FromView, With
 
     public function view(): \Illuminate\Contracts\View\View
     {
-        return view('ring_central::production_report.calls', [
+        return view('ring_central::production_report.contacts', [
             'title' => 'Calls Summary Report',
             'data' => $this->data,
         ]);
     }
 
-    public function registerEvents(): array
-    {
-        return [
-            AfterSheet::class => new CallsSheetHandler()
-        ];
-    }
+    // public function registerEvents(): array
+    // {
+    //     return [
+    //         AfterSheet::class => new CallsSheetHandler()
+    //     ];
+    // }
 
     /**
      * @return string
@@ -48,12 +47,12 @@ class CallsSheet extends AbstractSheet implements SheetsContract, FromView, With
      */
     public function title(): string
     {
-        return 'Calls';
+        return 'Contacts';
     }
 
     public function data(): Collection
     {
-        $this->data = Cache::remember($this->cacheKey(CallsService::class), 60 * 10, function () {
+        $this->data = Cache::remember($this->cacheKey(CallsService::class . '_contacts'), 60 * 10, function () {
             $service = new CallsService();
             return $service
                 ->datesBetween($this->dates)
@@ -62,8 +61,10 @@ class CallsSheet extends AbstractSheet implements SheetsContract, FromView, With
                     'dial_group' => $this->dial_groups,
                     'dial_group_prefix' => '%',
                     'agent_name' => '%',
-                    'agent_disposition' => '%'
+                    'agent_disposition' => '%',
+                    'recording_url' => '%',
                 ])
+                ->havingRaw('SUM(contacts) > ?', [0])
                 ->get();
         });
 

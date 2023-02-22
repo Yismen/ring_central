@@ -56,7 +56,12 @@ class ProductionSheet extends AbstractSheet implements SheetsContract, FromView,
             return $service
             ->datesBetween($this->dates)
             ->groupByDate()
-            ->build(Arr::except($this->fields, ['agent_disposition', 'recording_url', 'queue']))
+            ->build([
+                'dial_group' => $this->dial_groups,
+                'dial_group_prefix' => '%',
+                'agent_name' => '%',
+                'team' => $this->teams,
+            ])
             ->get();
         });
 
@@ -65,7 +70,12 @@ class ProductionSheet extends AbstractSheet implements SheetsContract, FromView,
             return $service
                 ->datesBetween($this->dates)
                 ->groupByDate()
-                ->build(Arr::except($this->fields, ['team']))
+                ->build([
+                    'dial_group' => $this->dial_groups,
+                    'dial_group_prefix' => '%',
+                    'agent_name' => '%',
+                    'agent_disposition' => '%'
+                ])
                 ->get();
         });
 

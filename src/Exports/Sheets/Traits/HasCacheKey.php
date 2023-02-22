@@ -11,8 +11,8 @@ trait HasCacheKey
         return join(
             [
                 ...(array)str($class)->replace('\\', ' ')->snake()->__toString(),
-                ...Arr::flatten(array_keys($this->fields)),
-                ...Arr::flatten($this->fields),
+                ...Arr::flatten($this->dial_groups),
+                ...Arr::flatten($this->teams),
                 ...$this->dates
             ],
             '_'

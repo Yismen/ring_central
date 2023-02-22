@@ -13,7 +13,7 @@ trait HasNewData
 
         $key = join(
             '-',
-            array_merge(Arr::flatten($this->fields), $this->dates, [$data_sum])
+            array_merge(Arr::flatten($this->dial_groups), Arr::flatten($this->teams), $this->dates, [$data_sum])
         );
 
         if ($data_sum === 0 || Cache::has($key)) {

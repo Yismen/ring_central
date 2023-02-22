@@ -14,11 +14,15 @@ use Dainsys\RingCentral\Exports\ProductionReportExport;
 abstract class ProductionReportCommand extends Command
 {
     protected array $dates;
+    protected array $dialGroups;
+    protected array $teams;
     protected string $file_name;
 
     abstract public function subject(): string;
 
-    abstract public function fields(): array;
+    abstract public function dialGroups(): array;
+
+    abstract public function teams(): array;
 
     abstract public function sheets(): array;
 
@@ -34,7 +38,8 @@ abstract class ProductionReportCommand extends Command
 
         $report = new ProductionReportExport(
             $this->sheets(),
-            $this->fields(),
+            $this->dialGroups(),
+            $this->teams(),
             $this->dates
         );
 

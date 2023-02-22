@@ -36,19 +36,23 @@ class PublishingProductionReport extends ProductionReportCommand
         ';
 	
         /**
-         * List of fields to query. Provide all fields, for both calls and hours. 
+         * List of dialGroups to query. Provide all dialGroups.
          *
          * @return array
          */
-        public function fields(): array 
+        public function dialGroups(): array 
         {
-            return [
-               'dial_group' => ['PUB%'],
-               'dial_group_prefix' => '%',
-               'agent_name' => '%',
-               'agent_disposition' => '%',
-               'team' => '%',
-            ];
+            return ['PUB%'];
+        }
+	
+        /**
+         * List of teams to query.
+         *
+         * @return array
+         */
+        public function teams(): array 
+        {
+            return ['ECC%'];
         }
 	
         /**
@@ -57,15 +61,17 @@ class PublishingProductionReport extends ProductionReportCommand
         public function sheets(): array 
         {
             return [                    
-                \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class,
+                \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class ,
                 \Dainsys\RingCentral\Exports\Sheets\CallsSheet::class,
+                \Dainsys\RingCentral\Exports\Sheets\ContactsSheet::class,
             ];
         }
             
 	/**
-	 * @return string
+	 * Email subject
 	 */
-	public function subject(): string {
+	public function subject(): string 
+    {
         return str($this->name)->replace(':', ' ')->headline();
 	}
 }
