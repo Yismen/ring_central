@@ -62,6 +62,7 @@ class ContactsSheet extends AbstractSheet implements SheetsContract, FromView, W
                     'dial_group_prefix' => '%',
                     'agent_name' => '%',
                     'agent_disposition' => '%',
+                    'lead_phone' => '%',
                     'recording_url' => '%',
                 ])
                 ->havingRaw('SUM(contacts) > ?', [0])

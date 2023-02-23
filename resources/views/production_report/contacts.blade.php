@@ -25,10 +25,11 @@
             <th>Calls</th>
             <th>Contacts</th>
             <th>Sales</th>
-            <th>Avg Duration Secs</th>
-            <th>Avg Hold Secs</th>
-            <th>Avg Wait Secs</th>
-            <th>Avg Wrap Secs</th>
+            <th>Duration Secs</th>
+            <th>Hold Secs</th>
+            <th>Wait Secs</th>
+            <th>Wrap Secs</th>
+            <th>Lead Phone</th>
             <th>Recording URL</th>
         </tr>
     </thead>
@@ -50,6 +51,7 @@
             <td>{{ $call->total_calls > 0 ? $call->total_agent_wait_time / $call->total_calls : 0 }}</td>
             {{-- Avg Wrap Secs --}}
             <td>{{ $call->total_calls > 0 ? $call->total_agent_wrap_time / $call->total_calls : 0 }}</td>
+            <td>{{ $call->lead_phone }}</td>
             <td>{{ $call->recording_url }}</td>
         </tr>
         @endforeach
