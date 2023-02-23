@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Console\Commands;
+
+use Dainsys\RingCentral\Console\Commands\ProductionReportCommand;
+
+class {{ name }} extends ProductionReportCommand
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = '{{ signature }} 
+        {dates?} Range of dates between the data will be queried. Exc: 2023-01-01 or 2023-01-01,2023-01-02. Today\'s date will be assumed if not passed! 
+        ';
+	
+    /**
+        * List of dialGroups to query. Provide all dialGroups.
+        *
+        * @return array
+        */
+    public function dialGroups(): array 
+    {
+        // return ['PUB%'];
+    }
+
+    /**
+        * List of teams to query.
+        *
+        * @return array
+        */
+    public function teams(): array 
+    {
+        // return ['ECC%'];
+    }
+        
+    /**
+    * Email subject
+    */
+    public function subject(): string 
+    {
+        return str($this->name)->replace(':', ' ')->headline();
+    }
+}

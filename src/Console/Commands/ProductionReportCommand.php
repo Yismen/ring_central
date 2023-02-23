@@ -24,8 +24,6 @@ abstract class ProductionReportCommand extends Command
 
     abstract public function teams(): array;
 
-    abstract public function sheets(): array;
-
     /**
      * Execute the console command.
      *
@@ -84,5 +82,17 @@ abstract class ProductionReportCommand extends Command
             $this->dates[0],
             $this->dates[1] ?? $this->dates[0],
         ]) . '.XLSX';
+    }
+	
+    /**
+     * @return array
+     */
+    protected function sheets(): array 
+    {
+        return [                    
+            \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class ,
+            \Dainsys\RingCentral\Exports\Sheets\CallsSheet::class,
+            \Dainsys\RingCentral\Exports\Sheets\ContactsSheet::class,
+        ];
     }
 }

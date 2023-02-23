@@ -54,18 +54,6 @@ class PublishingProductionReport extends ProductionReportCommand
         {
             return ['ECC%'];
         }
-	
-        /**
-         * @return array
-         */
-        public function sheets(): array 
-        {
-            return [                    
-                \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class ,
-                \Dainsys\RingCentral\Exports\Sheets\CallsSheet::class,
-                \Dainsys\RingCentral\Exports\Sheets\ContactsSheet::class,
-            ];
-        }
             
 	/**
 	 * Email subject
