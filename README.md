@@ -1,6 +1,5 @@
  # Dainsys Ring Central
  Extends ring central reports functionality. 
-
   ### Installation
  1. Require using composer: `composer require dainsys/ring_central`.
  2. Add DB Connection values in your .env file:
@@ -12,17 +11,20 @@
    RC_DB_DRIVER=
 ```
 #### Ussage
- 1. Make sure your commands extednds the `\Dainsys\RingCentral\Console\Commands\AbstractProductionReportCommand`.
- 2. Your signature property must provide a required option for --dates property, which is required to run the reports
- 3. Provide implementation to all abstract methods required. Use the following code as an example.
+ 1. Make sure your commands extednds the `\Dainsys\RingCentral\Console\Commands\AbstractProductionReportCommand`. Alternatively, you may use the `rc:make-command` command to create your reports.
+ 2. Your signature property must provide a required option for --dates property, which is required to run the reports.
+ 3. This package uses `dainsys/mailing` package under the hood [More details](https://github.com/Yismen/mailing). So, to run your reports you will need to:
+    1. Visit url `/mailing/admin/mailables` in your app and create a mailable record with the class name of the command. For current example, `App\Console\Commands\PublishingProductionReport`.
+    2. Visit url `/mailing/admin/recipients` to create new recipients associate them with the created mailable report.
+ 4. Provide implementation to all abstract methods required. Use the following code as an example.
  ```js
 <?php
 
 namespace App\Console\Commands;
 
-use Dainsys\RingCentral\Console\Commands\AbstractProductionReportCommand;
+use Dainsys\RingCentral\Console\Commands\ProductionReportCommand;
 
-class PublishingProductionReport extends AbstractProductionReportCommand
+class PublishingProductionReport extends ProductionReportCommand
 {
     /**
      * The name and signature of the console command.
@@ -30,38 +32,37 @@ class PublishingProductionReport extends AbstractProductionReportCommand
      * @var string
      */
     protected $signature = 'publishing:production-report 
-        {--d|dates=} Required. Range of dates between the data will be queried. Example: 2023-01-01 or 2023-01-01,2023-01-02 or 2023-01-01|2023-01-02
+        {dates?} Range of dates between the data will be queried. Exc: 2023-01-01 or 2023-01-01,2023-01-02. Today\'s date will be assumed if not passed! 
         ';
-        
-    protected $description = 'Send a production report for a given period';
-
-    public function handle()
+	
+        /**
+         * List of dialGroups to query. Provide all dialGroups.
+         *
+         * @return array
+         */
+        public function dialGroups(): array 
+        {
+            return ['PUB%'];
+        }
+	
+        /**
+         * List of teams to query.
+         *
+         * @return array
+         */
+        public function teams(): array 
+        {
+            return ['ECC%'];
+        }
+            
+	/**
+	 * Email subject
+	 */
+	public function subject(): string 
     {
-       return parent::manage(new \Dainsys\RingCentral\Reports\ProductionReportByDates()); //reports are grouped by date, and add a date field
-       // parent::manage(new \Dainsys\RingCentral\Reports\ProductionReportSummarized()); // will add date_from and date_to fields. Not grouped by date
-    }
-
-    /**
-     * Subject to be used on the email.
-     */
-    public function subject(): string
-    {
-        return 'Publishing Production Report';
-    }
-
-    public function dialGroupPrefixes(): array
-    {
-        return ['PUB%'];
-    }
-
-    public function teams(): array
-    {
-        return ['ECC%'];
-    }
-
-    public function dialGroups(): array
-    {
-        return ['%'];
-    }
+        return str($this->name)->replace(':', ' ')->headline();
+	}
 }
  ```
+
+![Jokes Card](https://readme-jokes.vercel.app/api)

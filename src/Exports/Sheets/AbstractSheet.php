@@ -2,17 +2,23 @@
 
 namespace Dainsys\RingCentral\Exports\Sheets;
 
-use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\WithEvents;
 use Illuminate\Database\Eloquent\Collection;
 
-abstract class AbstractSheet implements FromView, WithTitle, WithEvents
+abstract class AbstractSheet
 {
+    public array $dial_groups;
+    public array $teams;
+    public array $dates;
     public Collection $data;
 
-    public function __construct(Collection $data)
+    public function __construct(array $dial_groups, array $teams, array $dates)
     {
-        $this->data = $data;
+        $this->dial_groups = $dial_groups;
+        $this->teams = $teams;
+        $this->dates = $dates;
+
+        $this->data = $this->data();
     }
+
+    abstract public function data(): Collection;
 }
