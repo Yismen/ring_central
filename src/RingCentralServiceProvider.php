@@ -6,6 +6,7 @@ use Dainsys\Mailing\Mailing;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Database\Eloquent\Model;
 use Dainsys\RingCentral\Services\CallsService;
+use Dainsys\RingCentral\Console\Commands\CreateCommandsCommand;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 
 class RingCentralServiceProvider extends AuthServiceProvider
@@ -29,6 +30,10 @@ class RingCentralServiceProvider extends AuthServiceProvider
         $this->bootBindings();
 
         RingCentral::setConnection('ring_central.connection');
+
+        $this->commands([
+            CreateCommandsCommand::class
+        ]);
     }
 
     public function register()

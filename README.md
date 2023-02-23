@@ -11,9 +11,9 @@
    RC_DB_DRIVER=
 ```
 #### Ussage
- 1. Make sure your commands extednds the `\Dainsys\RingCentral\Console\Commands\AbstractProductionReportCommand`.
+ 1. Make sure your commands extednds the `\Dainsys\RingCentral\Console\Commands\AbstractProductionReportCommand`. Alternatively, you may use the `rc:make-command` command to create your reports.
  2. Your signature property must provide a required option for --dates property, which is required to run the reports.
- 3. This package uses `dainsys/mailing` package under the hood [More details](https://github.com/Yismen/mailing). So, to run your reports you will need:
+ 3. This package uses `dainsys/mailing` package under the hood [More details](https://github.com/Yismen/mailing). So, to run your reports you will need to:
     1. Visit url `/mailing/admin/mailables` in your app and create a mailable record with the class name of the command. For current example, `App\Console\Commands\PublishingProductionReport`.
     2. Visit url `/mailing/admin/recipients` to create new recipients associate them with the created mailable report.
  4. Provide implementation to all abstract methods required. Use the following code as an example.
