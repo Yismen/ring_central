@@ -31,6 +31,13 @@ abstract class AbstractSheetHandler
         }
     }
 
+    /**
+     * With to be applied to columns. Return multipe arrays.
+     *
+     * @return array
+     */
+    abstract protected function columnsWith(): array;
+
     abstract protected function lastColumn(): string;
 
     abstract protected function firstValuesColumn(): string;
@@ -168,11 +175,13 @@ abstract class AbstractSheetHandler
     protected function setColumnsWidth()
     {
         $this->sheet->getDefaultColumnDimension()->setWidth(60, 'px');
-        $this->sheet->getColumnDimension('A')->setWidth(80, 'px');
-        $this->sheet->getColumnDimension('B')->setAutoSize(true);
-
-        foreach (range('C', 'D') as $column) {
-            $this->sheet->getColumnDimension($column)->setWidth(240, 'px');
+        foreach ($this->columnsWith() as $set) {
+            $width = $set['width'];
+            $units = $set['units'] ?? 'px';
+            foreach ($set['columns'] as $column) {
+                $this->sheet->getColumnDimension($column)->setWidth($width, $units);
+            }
+            // code...
         }
     }
 }
