@@ -6,13 +6,14 @@ use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Illuminate\Database\Eloquent\Collection;
 use Dainsys\RingCentral\Services\CallsService;
 use Dainsys\RingCentral\Exports\Sheets\Traits\HasNewData;
 use Dainsys\RingCentral\Exports\Sheets\Traits\HasCacheKey;
-use Dainsys\RingCentral\Exports\Sheets\Handlers\CallsSheetHandler;
+use Dainsys\RingCentral\Exports\Sheets\Handlers\ContactsSheetHandler;
 
-class ContactsSheet extends AbstractSheet implements SheetsContract, FromView, WithTitle
+class ContactsSheet extends AbstractSheet implements SheetsContract, FromView, WithTitle, WithEvents
 {
     use HasNewData;
     use HasCacheKey;
@@ -27,12 +28,12 @@ class ContactsSheet extends AbstractSheet implements SheetsContract, FromView, W
         ]);
     }
 
-    // public function registerEvents(): array
-    // {
-    //     return [
-    //         AfterSheet::class => new CallsSheetHandler()
-    //     ];
-    // }
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => new ContactsSheetHandler()
+        ];
+    }
 
     /**
      * @return string

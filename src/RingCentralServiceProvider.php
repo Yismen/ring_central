@@ -29,7 +29,7 @@ class RingCentralServiceProvider extends AuthServiceProvider
         $this->bootLoads();
         $this->bootBindings();
 
-        RingCentral::setConnection('ring_central.connection');
+        RingCentral::setConnection(config('ring_central.connection.name'));
 
         $this->commands([
             CreateCommandsCommand::class
@@ -50,14 +50,18 @@ class RingCentralServiceProvider extends AuthServiceProvider
             __DIR__ . '/../config/ring_central.php' => config_path('ring_central.php')
         ], 'ring_central:config');
 
+        // $this->publishes([
+        //     __DIR__ . '/../database/migrations' => database_path('migrations')
+        // ], 'ring_central:migrations');
+
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/ring_central')
-        ]);
+        ], 'ring_central:views');
     }
 
     protected function bootLoads()
     {
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        // $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ring_central');
     }
