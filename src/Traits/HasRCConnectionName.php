@@ -2,14 +2,14 @@
 
 namespace Dainsys\RingCentral\Traits;
 
-trait HasRCConnection
+trait HasRCConnectionName
 {
     /**
      * Get the migration connection name.
      *
      * @return string|null
      */
-    public function getConnection()
+    public function getConnectionName()
     {
         return config('ring_central.connection.name');
     }
