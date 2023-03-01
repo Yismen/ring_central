@@ -21,7 +21,7 @@ class CreateVwEccoAgentSessionRawSummaryView extends Migration
                 SELECT
                     [Agent ID] AS agent_id,
                     TRIM([First Name] + ' ' + [Last Name]) AS agent_name,
-                    Team,
+                    Team as team,
                     CONVERT(date, [Login DTS]) AS date,
                     [Dial Group] AS dial_group,
                     LEFT(TRIM([Dial Group]), 3) AS dial_group_prefix,

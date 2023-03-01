@@ -3,9 +3,9 @@
 namespace Dainsys\RingCentral\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Dainsys\RingCentral\Traits\HasRCConnection;
+use Dainsys\RingCentral\Traits\HasRCConnectionName;
 
 class AbstractModel extends Model
 {
-    use HasRCConnection;
+    use HasRCConnectionName;
 }
