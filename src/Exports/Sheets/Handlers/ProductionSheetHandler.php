@@ -68,4 +68,25 @@ class ProductionSheetHandler extends AbstractSheetHandler
             TextFormats::FORMAT_PERCENTAGE => ['L', 'M', 'N'],
         ];
     }
+
+    /**
+     * With to be applied to columns. Return multipe arrays.
+     *
+     * @return array
+     */
+    public function columnsWith(): array
+    {
+        return [
+            [
+                'columns' => ['A', 'B'],
+                'width' => 82,
+                'units' => 'px',
+            ],
+            [
+                'columns' => ['C', 'D'],
+                'width' => 220,
+                'units' => 'px',
+            ]
+        ];
+    }
 }

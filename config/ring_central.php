@@ -6,6 +6,7 @@ return [
         'api' => 'api'
     ],
     'connection' => [
+        'name' => 'ring_central',
         'host' => env('RC_DB_HOST'),
         'database' => env('RC_DB_DATABASE'),
         'username' => env('RC_DB_USERNAME'),

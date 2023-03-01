@@ -43,7 +43,7 @@ abstract class ProductionReportCommand extends Command
 
         if (Excel::store($report, $this->file_name)) {
             if ($report->hasNewData()) {
-                Mail::to(Mailing::recipients(get_class($this)))
+                Mail::to($this->recipients())
                 ->send(
                     new ProductionReportMail($this->subject(), $this->file_name)
                 );
@@ -83,16 +83,21 @@ abstract class ProductionReportCommand extends Command
             $this->dates[1] ?? $this->dates[0],
         ]) . '.XLSX';
     }
-	
+
     /**
      * @return array
      */
-    protected function sheets(): array 
+    protected function sheets(): array
     {
-        return [                    
-            \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class ,
+        return [
+            \Dainsys\RingCentral\Exports\Sheets\ProductionSheet::class,
             \Dainsys\RingCentral\Exports\Sheets\CallsSheet::class,
             \Dainsys\RingCentral\Exports\Sheets\ContactsSheet::class,
         ];
+    }
+
+    protected function recipients(): array
+    {
+        return Mailing::recipients(get_class($this));
     }
 }
