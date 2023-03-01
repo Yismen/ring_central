@@ -9,7 +9,7 @@ trait HasRCConnection
      *
      * @return string|null
      */
-    public function getConnection()
+    public function getConnectionName()
     {
         return config('ring_central.connection.name');
     }
